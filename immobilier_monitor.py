@@ -6,6 +6,7 @@ import time
 import unicodedata
 from datetime import datetime, timezone
 from urllib.parse import urljoin
+
 import gspread
 import pandas as pd
 import requests
@@ -13,8 +14,15 @@ from bs4 import BeautifulSoup
 from google.oauth2.service_account import Credentials
 from playwright.async_api import async_playwright
 
+def require_env(name):
+    value = os.getenv(name, "").strip()
+    if not value:
+        raise RuntimeError(f"Secret/variabile mancante: {name}")
+    return value
+
 
 BASE_URL = "https://www.immobilier.ch"
+GOOGLE_SHEET_URL = "https://docs.google.com/spreadsheets/d/1n88ZGWqbUXK4H6fAC3nrc8onqq5a07Vbfb_D4cu58aQ/edit?gid=71426295#gid=71426295"
 WORKSHEET_NAME = "Annunci"
 MAX_PRICE_CHF = 2400
 MAX_PAGES = 10
@@ -56,11 +64,7 @@ SHEET_COLUMNS = [
 ]
 
 
-def require_env(name):
-    value = os.getenv(name, "").strip()
-    if not value:
-        raise RuntimeError(f"Secret/variabile mancante: {name}")
-    return value
+
 
 
 def build_search_url(page_number):
@@ -277,7 +281,7 @@ def clean_value(value):
 
 
 def get_worksheet(client):
-    spreadsheet = client.open_by_url(require_env("GOOGLE_SHEET_URL"))
+    spreadsheet = client.open_by_url(GOOGLE_SHEET_URL)
     try:
         worksheet = spreadsheet.worksheet(WORKSHEET_NAME)
     except gspread.WorksheetNotFound:
