@@ -6,7 +6,6 @@ import time
 import unicodedata
 from datetime import datetime, timezone
 from urllib.parse import urljoin
-
 import gspread
 import pandas as pd
 import requests
