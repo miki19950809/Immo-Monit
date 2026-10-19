@@ -14,6 +14,13 @@ from bs4 import BeautifulSoup
 from google.oauth2.service_account import Credentials
 from playwright.async_api import async_playwright
 
+def require_env(name):
+    value = os.getenv(name, "").strip()
+    if not value:
+        raise RuntimeError(f"Secret/variabile mancante: {name}")
+    return value
+
+
 BASE_URL = "https://www.immobilier.ch"
 GOOGLE_SHEET_URL = require_env("GOOGLE_SHEET_URL")   
 WORKSHEET_NAME = "Annunci"
@@ -57,11 +64,7 @@ SHEET_COLUMNS = [
 ]
 
 
-def require_env(name):
-    value = os.getenv(name, "").strip()
-    if not value:
-        raise RuntimeError(f"Secret/variabile mancante: {name}")
-    return value
+
 
 
 def build_search_url(page_number):
