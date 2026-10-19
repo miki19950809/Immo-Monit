@@ -1,0 +1,6 @@
+beautifulsoup4==4.14.2
+google-auth==2.41.1
+gspread==6.2.1
+pandas==2.3.3
+playwright==1.55.0
+requests==2.32.5
