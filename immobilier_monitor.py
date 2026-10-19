@@ -15,7 +15,7 @@ from google.oauth2.service_account import Credentials
 from playwright.async_api import async_playwright
 
 BASE_URL = "https://www.immobilier.ch"
-GOOGLE_SHEET_URL = "https://docs.google.com/spreadsheets/d/1n88ZGWqbUXK4H6fAC3nrc8onqq5a07Vbfb_D4cu58aQ/edit?gid=0#gid=0"
+GOOGLE_SHEET_URL = require_env("GOOGLE_SHEET_URL")   
 WORKSHEET_NAME = "Annunci"
 MAX_PRICE_CHF = 2400
 MAX_PAGES = 10
@@ -252,6 +252,7 @@ async def scrape_all_pages():
 
     return all_records
 
+    
 
 def google_client_from_secret():
     info = json.loads(require_env("GOOGLE_SERVICE_ACCOUNT_JSON"))
